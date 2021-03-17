@@ -1,0 +1,31 @@
+pipeline {
+    agent any 
+    environment{
+      myvar = "outer Block"
+    }
+      stages {
+        stage('checkout'){
+          steps {
+            checkout scm
+          }
+        }
+          stage('Build'){
+            steps{
+              sh "sh array.sh"
+            }
+          }
+          stage('post Task'){
+            steps{
+              sh "echo emailing"
+            }
+          }
+          stage('printing environment var'){
+            environment{
+              myvar = "Inner Block"
+            }
+            steps{
+              sh 'echo "this is my variable:$myvar"'
+            }
+        }
+    }
+}
